@@ -4,12 +4,34 @@ import mammoth from 'mammoth'
 import axios from 'axios'
 import './App.css'
 import JSONTree from 'react-json-tree'
+import Dropdown from 'react-dropdown'
+import 'react-dropdown/style.css'
 
-const url = `http://wit.istc.cnr.it:9090/enhancer`
+let url = `https://unga.mido.io/enhancer/chain`
 const headers = {
   Accept: 'application/json',
   'Content-type': 'text/plain',
 }
+
+const outputOptions = [
+  { value: 'application/json', label: 'JSON-LD' },
+  { value: 'application/rdf+xml', label: 'RDF/XML' },
+  { value: 'application/rdf+json', label: 'RDF/JSON' },
+  { value: 'text/turtle', label: 'Turtle' },
+  { value: 'text/rdf+nt', label: 'N-TRIPLES' },
+]
+
+const chains = [
+  { value: `${url}/undo-plain`, label: 'Plain' },
+  { value: `${url}/undo+dbpedia-proper-noun`, label: 'Proper Noun' },
+  { value: `${url}/undo+dbpedia-named-entity-linking`, label: 'Named Entity Linking' },
+  { value: `${url}/undo+dbpedia-fst-linking`, label: 'FST Linking' },
+  { value: `${url}/undo+dbpedia-disambiguation`, label: 'Disambiguation' },
+]
+
+const defOutOptions = outputOptions[0];
+const defChain = chains[0];
+
 
 class App extends Component {
   render() {
@@ -30,38 +52,65 @@ class MyDropzone extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {data: null}
+    this.state = {
+      data: null,
+      outputFormat: defOutOptions.value,
+    }
   }
 
-  async onFileRead(arrayBuffer) {
-    const { value: text } = await mammoth.extractRawText({ arrayBuffer })
+  async onFileRead(arrayBuffer, fileName) {
+    const { value: fileText } = await mammoth.extractRawText({ arrayBuffer })
+    this.setState({ fileText, fileName })
+  }
+
+  async fetchData(){
+    const { fileText } = this.state
+
     const { data } = await axios({
       headers,
       url,
       method: 'post',
-      data: text,
+      data: fileText,
     })
 
-    console.log(data)
     this.setState({data})
   }
 
   getDocData(acceptedFiles) {
     const reader = new FileReader();
-    reader.readAsArrayBuffer(acceptedFiles[0]);
+    reader.readAsArrayBuffer(acceptedFiles[0])
+    const fileName = acceptedFiles[0].name
     reader.onload = ({ target: { result: arrayBuffer } }) => {
-      this.onFileRead(arrayBuffer)
+      this.onFileRead(arrayBuffer, fileName)
     } 
   }
 
+  outputSelect({value}) {
+    this.setState({outputFormat: value})
+    
+  }
+
   render() {
-    const {data} = this.state
+    const { data, fileName} = this.state
+    let onFileName
+    const jsonData = typeof data === 'object' ? JSON.stringify(data, null, 2) : data
+
     const onData = (
       <div>
+        {headers.Accept.includes('json') && (<div>
+
+        <h2>Enhanced data: </h2>
         <JSONTree data={data} theme={theme} invertTheme={false} hideRoot={true}/>
+        </div>)}
         <h3>Raw output: </h3>
-        <textarea className='rawDataArea'>{JSON.stringify(data, null, 2)}</textarea>
+        <textarea className='rawDataArea' value={jsonData}></textarea>
       </div>)
+
+    if (fileName) {
+      onFileName = (
+        <div>Selected file: {fileName}</div>
+      )
+    }
     return (
       <div>
         <Dropzone onDrop={acceptedFiles => this.getDocData(acceptedFiles)}>
@@ -71,11 +120,22 @@ class MyDropzone extends Component {
                 <input {...getInputProps()} />
                 <p>Drag 'n' drop docx file here, or click to select a file</p>
               </div>
+              {fileName && onFileName}
             </section>
           )}
         </Dropzone>
+
         <div>
-          <h2>Enhanced data: </h2>
+          <div>Enhancer chain: <Dropdown options={chains} onChange={({value}) => url = value} value={defChain} placeholder="Select an enchancer chain" /></div>
+          <div>Output format: <Dropdown options={outputOptions} onChange={({ value }) => headers.Accept = value } value={defOutOptions} placeholder="Select an output format" /></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+
+          <div><button onClick={() => this.fetchData()} disabled={!fileName}> Get Enhanced data</button></div>
+        </div>
+        <div>
           {data && onData}
         </div>
       </div>
