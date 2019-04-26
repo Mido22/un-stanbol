@@ -38,7 +38,7 @@ class App extends Component {
     return (
       <div className='App'>
         <div className='App-body'>
-          <h1>Wrapped stanbol</h1>
+          <h1>Stanbol based enhancer</h1>
           <MyDropzone />
         </div>
       </div>
@@ -99,7 +99,7 @@ class MyDropzone extends Component {
       <div>
         {headers.Accept.includes('json') && (<div>
 
-        <h2>Enhanced data: </h2>
+        <h2>Annotations: </h2>
         <JSONTree data={data} theme={theme} invertTheme={false} hideRoot={true}/>
         </div>)}
         <h3>Raw output: </h3>
@@ -118,7 +118,7 @@ class MyDropzone extends Component {
             <section>
               <div {...getRootProps()}>
                 <input {...getInputProps()} />
-                <p>Drag 'n' drop docx file here, or click to select a file</p>
+                <p>Click or drag to upload Word document</p>
               </div>
               {fileName && onFileName}
             </section>
