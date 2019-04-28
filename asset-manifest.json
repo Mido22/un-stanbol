@@ -1,15 +1,15 @@
 {
-  "main.css": "/un-stanbol/static/css/main.6eeaddf7.chunk.css",
-  "main.js": "/un-stanbol/static/js/main.1ae20536.chunk.js",
-  "main.js.map": "/un-stanbol/static/js/main.1ae20536.chunk.js.map",
+  "main.css": "/un-stanbol/static/css/main.3c226971.chunk.css",
+  "main.js": "/un-stanbol/static/js/main.6ca54bb7.chunk.js",
+  "main.js.map": "/un-stanbol/static/js/main.6ca54bb7.chunk.js.map",
   "runtime~main.js": "/un-stanbol/static/js/runtime~main.f62f44fa.js",
   "runtime~main.js.map": "/un-stanbol/static/js/runtime~main.f62f44fa.js.map",
-  "static/css/2.a5c3b27a.chunk.css": "/un-stanbol/static/css/2.a5c3b27a.chunk.css",
+  "static/css/2.e0ed24bc.chunk.css": "/un-stanbol/static/css/2.e0ed24bc.chunk.css",
   "static/js/2.1413dfd0.chunk.js": "/un-stanbol/static/js/2.1413dfd0.chunk.js",
   "static/js/2.1413dfd0.chunk.js.map": "/un-stanbol/static/js/2.1413dfd0.chunk.js.map",
   "index.html": "/un-stanbol/index.html",
-  "precache-manifest.e70ddd3d82bb510efb28f8bc76cf65c9.js": "/un-stanbol/precache-manifest.e70ddd3d82bb510efb28f8bc76cf65c9.js",
+  "precache-manifest.9529f8694de289780ef760ed4c991923.js": "/un-stanbol/precache-manifest.9529f8694de289780ef760ed4c991923.js",
   "service-worker.js": "/un-stanbol/service-worker.js",
-  "static/css/2.a5c3b27a.chunk.css.map": "/un-stanbol/static/css/2.a5c3b27a.chunk.css.map",
-  "static/css/main.6eeaddf7.chunk.css.map": "/un-stanbol/static/css/main.6eeaddf7.chunk.css.map"
+  "static/css/2.e0ed24bc.chunk.css.map": "/un-stanbol/static/css/2.e0ed24bc.chunk.css.map",
+  "static/css/main.3c226971.chunk.css.map": "/un-stanbol/static/css/main.3c226971.chunk.css.map"
 }
