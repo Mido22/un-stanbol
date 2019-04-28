@@ -7,7 +7,7 @@ import JSONTree from 'react-json-tree'
 import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
 
-let url = `https://unga.mido.io/enhancer/chain`
+const url = `https://unga.mido.io/enhancer/chain`
 const headers = {
   Accept: 'application/json',
   'Content-type': 'text/plain',
@@ -29,10 +29,6 @@ const chains = [
   { value: `${url}/undo+dbpedia-disambiguation`, label: 'Disambiguation' },
 ]
 
-const defOutOptions = outputOptions[0];
-const defChain = chains[0];
-
-
 class App extends Component {
   render() {
     return (
@@ -48,13 +44,14 @@ class App extends Component {
 
 export default App;
 
+let outputFormatD = outputOptions[0]
+let chainD = chains[0]
 class MyDropzone extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       data: null,
-      outputFormat: defOutOptions.value,
     }
   }
 
@@ -65,10 +62,10 @@ class MyDropzone extends Component {
 
   async fetchData(){
     const { fileText } = this.state
-
+    headers.Accept = outputFormatD.value
     const { data } = await axios({
       headers,
-      url,
+      url: chainD.value,
       method: 'post',
       data: fileText,
     })
@@ -83,11 +80,6 @@ class MyDropzone extends Component {
     reader.onload = ({ target: { result: arrayBuffer } }) => {
       this.onFileRead(arrayBuffer, fileName)
     } 
-  }
-
-  outputSelect({value}) {
-    this.setState({outputFormat: value})
-    
   }
 
   render() {
@@ -126,12 +118,8 @@ class MyDropzone extends Component {
         </Dropzone>
 
         <div>
-          <div>Enhancer chain: <Dropdown options={chains} onChange={({value}) => url = value} value={defChain} placeholder="Select an enchancer chain" /></div>
-          <div>Output format: <Dropdown options={outputOptions} onChange={({ value }) => headers.Accept = value } value={defOutOptions} placeholder="Select an output format" /></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+          <div>Enhancer chain: <Dropdown options={chains} onChange={(v) => chainD = v} value={chainD} placeholder="Select an enchancer chain" /></div>
+          <div>Output format: <Dropdown options={outputOptions} onChange={(v) => outputFormatD = v} value={outputFormatD} placeholder="Select an output format" /></div>
 
           <div><button onClick={() => this.fetchData()} disabled={!fileName}> Get Enhanced data</button></div>
         </div>

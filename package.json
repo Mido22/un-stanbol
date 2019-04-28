@@ -22,7 +22,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "http://wit.istc.cnr.it:9090",
+  "proxy": "https://unga.mido.io",
   "homepage": "https://mido22.github.io/un-stanbol/",
   "browserslist": [
     ">0.2%",
